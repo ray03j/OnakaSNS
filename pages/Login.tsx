@@ -21,22 +21,22 @@ function Login() {
       const postData = {
         Email: email,
         Password: password
-  };
+      };
   
-  const jwt = await instance.post(
-    `/api/v1/users/signin`, postData
-  );
-  console.log(jwt);
+      const jwt = await instance.post(
+        `/api/v1/users/signin`, postData
+      );
+      console.log(jwt);
 //トークンの取得をする
-}
+    }
 
-  try{
-    loginUser();
+    try{
+      loginUser();
+    }
+    catch(err){
+      console.error(err);
+    }
   }
-  catch(err){
-    console.error(err);
-  }
-}
 
   return (
     <div style={{ textAlign: 'center', marginTop: '2em'}}><h1>ログイン画面</h1>
