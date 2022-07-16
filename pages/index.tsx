@@ -59,9 +59,7 @@ const dt: Props[] = JSON.parse(testdata);
           </CenterSection>
           
           <RightSection>
-            <div>
-              <h1>c</h1>
-            </div>
+            <div></div>
           </RightSection>
       </Entire>
 
