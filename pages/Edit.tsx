@@ -28,6 +28,7 @@ function Edit() {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    location.href = "/"
   };
 
   useEffect(() => {
