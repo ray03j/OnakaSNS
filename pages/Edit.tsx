@@ -56,50 +56,52 @@ function Edit() {
 
   return (
     <BG>
-      <Card>
-        <Title>投稿</Title>
-        <form onSubmit={SentenceSend}>
-          {
-            image ? imgXml :(
-              <Label>
-                画像を選ぶ
-                <InputFile
-                  type="file"
-                  onChange={(e) => {
-                    uploadImage(e.target.files);
-                  }}
-                  accept="image/*"
-                />
-              </Label>
-            )
-          }
-          <label>
-            <InputForm
-              onChange={(e) => setSentence(e.target.value)}
-              placeholder="ボケてね！"
-              required
-            >
-            </InputForm>
-          </label>
-          <Enrole>
-            <InputButton type="submit">
-              <Link href="/">
-                <a><div>キャンセル</div></a>
-              </Link>
-            </InputButton>
-            <InputColorButton type="submit">
-              <a>投稿</a>
-            </InputColorButton>
-          </Enrole>
-        </form>
-      </Card>
+      <ContentDiv>
+        <Card>
+          <Title>投稿</Title>
+          <form onSubmit={SentenceSend}>
+            {
+              image ? imgXml :(
+                <Label>
+                  画像を選ぶ
+                  <InputFile
+                    type="file"
+                    onChange={(e) => {
+                      uploadImage(e.target.files);
+                    }}
+                    accept="image/*"
+                  />
+                </Label>
+              )
+            }
+            <label>
+              <InputForm
+                onChange={(e) => setSentence(e.target.value)}
+                placeholder="ボケてね！"
+                required
+              >
+              </InputForm>
+            </label>
+            <Enrole>
+              <BuckButton>
+                <Link href="/">
+                  キャンセル
+                </Link>
+              </BuckButton>
+              <InputColorButton type="submit">
+                投稿
+              </InputColorButton>
+            </Enrole>
+          </form>
+        </Card>
+      </ContentDiv>
     </BG>
   );
 }
 
 export default Edit;
 
-const Enrole = styled.p`
+const Enrole = styled.div`
   text-align: center;
   display: flex;
   justify-content: center;
@@ -108,10 +110,16 @@ const Enrole = styled.p`
 
 const BG = styled.div`
   background-color: #ffee4a;
+  background-size: cover;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 `;
+
+const ContentDiv = styled.div`
+  position: relative;
+`
 
 const Card = styled.div`
   text-align: center;
@@ -121,7 +129,6 @@ const Card = styled.div`
   padding: 1em 30px;
   margin: 30px 0;
   border-radius: 20px;
-  position: absolute;
 `;
 
 const Title = styled.h1`
@@ -141,7 +148,7 @@ const InputForm = styled.textarea`
   width: 90%;
 `
 
-const InputButton = styled.button`
+const BuckButton = styled.div`
   border-color: #00000000;
   background-color: #aaa;
   color: white;
