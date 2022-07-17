@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import axios from "axios";
@@ -34,6 +34,12 @@ function Login() {
       console.error(err);
     }
   };
+
+  useEffect(()=>{
+    if (localStorage.getItem("token") !== null) {
+      location.href = "/"
+    }
+  },[])
 
   return (
     <BG>
