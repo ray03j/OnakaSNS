@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Props } from "../types/type";
 import styled from "styled-components";
-import Button from './Button';
 import { instance } from "../utils/instance";
 
 const Block: React.FC<{ props: Props }> = ({ props }) => {
