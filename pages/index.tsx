@@ -37,6 +37,12 @@ function Home() {
       }).then((res) => setPosts(res.data));
     })
   }, []);
+
+  const LogOut = () => {
+    localStorage.removeItem("token")
+    location.href = "/Signup"
+  }
+
   return (
     <div>
       <Head>
@@ -51,6 +57,11 @@ function Home() {
           </SvgDiv>
         </Link>
       </PostIco>
+      <LogOutButton
+        onClick={LogOut}
+      >
+        Sign Out
+      </LogOutButton>
       <BG>
         <Entire>
           <CenterSection>
@@ -124,6 +135,20 @@ const PostIco = styled.div`
 
 const SvgDiv = styled.div`
   fill: #77477e;
+`
+
+const LogOutButton = styled.button`
+  left: 120px;
+  top: 30px;
+  position: absolute;
+  background-color: #ffee4a;
+  height: 70px;
+  width: 70px;
+  padding: 7px;
+  border-radius: 35px;
+  border: #77477e solid 3px;
+  color: #77477e;
+  font-weight: bold;
 `
 
 // .color-0 { color: #fe9600; }
