@@ -29,14 +29,14 @@ function Home() {
 
   const dt: Props[] = JSON.parse(testdata);
 
-  // useLayoutEffect(() => {
-  //   const checkLogin = async () => {
-  //     if ((await localStorage.getItem("token")) === null) {
-  //       location.href = "/Signup";
-  //     }
-  //   };
-  //   checkLogin();
-  // }, []);
+  useLayoutEffect(() => {
+    const checkLogin = async () => {
+      if ((await localStorage.getItem("token")) === null) {
+        location.href = "/Signup";
+      }
+    };
+    checkLogin();
+  }, []);
 
   return (
     <div>
@@ -87,16 +87,23 @@ function Home() {
 export default Home;
 
 Home.getInitialProps = async ({ res }) => {
-  // // サーバー側でリダイレクト
-  // if (typeof window === "undefined") {
-  //   res.writeHead(302, { Location: "/Signup" });
-  //   res.end();
+  // サーバー側でリダイレクト
+  let temp;
+  try {
+    temp = localStorage.getItem("token");
+  } catch (err) {
+    console.error();
+  }
+  if (temp === null) {
+    if (typeof window === "undefined") {
+      res.writeHead(302, { Location: "/Signup" });
+      res.end();
 
-  //   return {};
-  // }
+      return {};
+    }
 
-  // クライアント側でリダイレクト
-  if ((await localStorage.getItem("token")) === null) {
+    // クライアント側でリダイレクト
+
     Router.push("/Signup");
   }
 
