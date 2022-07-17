@@ -135,7 +135,6 @@ const Title = styled.h1`
   margin: 10px 0;
   color: #fe9600;
   font-weight: 30px;
-  text-stroke: 1px red;
 `
 
 const InputForm = styled.textarea`
