@@ -61,12 +61,13 @@ function Login() {
             </label>
           </div>
           <Enrole>
-            <InputButton onClick={postFunc}>
-              <Link href="/">
-                <a>ログイン</a>
-              </Link>
+            <InputButton
+              onClick={postFunc}
+              disabled={!(email !== "" && password !== "")}
+            >
+              <div>ログイン</div>
             </InputButton>
-            <InputButton type="submit">
+            <InputButton>
               <Link href="/Signup">
                 <a>
                   <div>新規登録画面へ</div>
