@@ -14,13 +14,12 @@ function Home() {
   useEffect(() => {
     const jwt = localStorage.getItem("token");
     async function fetchPostData() {
-      await instance
-        .get("/posts", {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-        .then((res) => setPosts(res.data));
+      const res = await instance.get("/posts", {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      setPosts(res.data);
     }
     fetchPostData();
     console.log(posts);
