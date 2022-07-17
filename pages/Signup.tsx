@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from 'next/link'
 import styled from 'styled-components';
 import axios from 'axios';
@@ -19,26 +19,30 @@ function Signup() {
 //  };
 
   const postFunc = () => {
-    const addUser = async () => {
-      const postData = {
-        Name: username,
+    const postData = {
+      Name: username,
+      Email: email,
+      Password: password
+    };
+    instance.post(
+      `/api/v1/users/signup`, postData
+    ).then(() => {
+      instance.post('/api/v1/users/signin', {
         Email: email,
         Password: password
-      };
-      const data = await instance.post(
-        `/api/v1/users/signup`, postData
-      ); // instanceはbaseURLで定義したもの
-      console.log(data);
-    }
-
-    try{
-      addUser();
-    }
-    catch(err){
-      console.error(err);
-      /* すでに登録済みだったらエラーの表示をする */
-    }
+      }).then((res) => {
+        console.log(res)
+        localStorage.setItem("token", res.data.jwt);
+        location.href = "/";
+      })
+    })
   }
+
+  useEffect(()=>{
+    if (localStorage.getItem("token") !== null) {
+      location.href = "/"
+    }
+  },[])
 
   return (
     <BG>
