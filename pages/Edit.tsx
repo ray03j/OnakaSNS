@@ -1,58 +1,62 @@
-import React, {useEffect, useState} from 'react';
-import Link from 'next/link'
-import styled from 'styled-components';
-import getUrl from '../losic/Cloudinary';
-import { instance } from '../utils/instance'
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import styled from "styled-components";
+import getUrl from "../losic/Cloudinary";
+import { instance } from "../utils/instance";
 
 function Edit() {
-  const [sentence, setSentence] = useState('');
+  const [sentence, setSentence] = useState("");
   const [image, uploadImage] = useState<FileList>();
   const [imgXml, setImgXml] = useState<JSX.Element>(<></>);
 
   const SentenceSend = async (e) => {
     e.preventDefault();
     if (!image) {
-      alert("画像を選択してください")
-      return
+      alert("画像を選択してください");
+      return;
     }
     console.log(sentence);
     const image_url = await getUrl(image);
-    const token = localStorage.getItem("token")
-    const res = await instance.post("/posts", {
-      content: sentence,
-      image_url: image_url,
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    })
+    const token = localStorage.getItem("token");
+    const res = await instance.post(
+      "/posts",
+      {
+        content: sentence,
+        image_url: image_url,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
   };
 
   useEffect(() => {
     if (image) {
-      const reader = new FileReader()
-      reader.readAsDataURL(image[0])
+      const reader = new FileReader();
+      reader.readAsDataURL(image[0]);
       reader.onload = (e) => {
         setImgXml(
           <>
             <ImgDiv>
               <ImgContain>
-                <ThumbImg src={e.target.result.toString()}/>
+                <ThumbImg src={e.target.result.toString()} />
               </ImgContain>
               <CloseButton
                 type="button"
-                onClick={()=>{
-                  uploadImage(null)
+                onClick={() => {
+                  uploadImage(null);
                 }}
               >
                 <b>✕</b>
               </CloseButton>
             </ImgDiv>
           </>
-        )
-      }
+        );
+      };
     } else {
-      setImgXml(<></>)
+      setImgXml(<></>);
     }
-  }, [image])
+  }, [image]);
 
   return (
     <BG>
@@ -60,37 +64,32 @@ function Edit() {
         <Card>
           <Title>投稿</Title>
           <form onSubmit={SentenceSend}>
-            {
-              image ? imgXml :(
-                <Label>
-                  画像を選ぶ
-                  <InputFile
-                    type="file"
-                    onChange={(e) => {
-                      uploadImage(e.target.files);
-                    }}
-                    accept="image/*"
-                  />
-                </Label>
-              )
-            }
+            {image ? (
+              imgXml
+            ) : (
+              <Label>
+                画像を選ぶ
+                <InputFile
+                  type="file"
+                  onChange={(e) => {
+                    uploadImage(e.target.files);
+                  }}
+                  accept="image/*"
+                />
+              </Label>
+            )}
             <label>
               <InputForm
                 onChange={(e) => setSentence(e.target.value)}
                 placeholder="ボケてね！"
                 required
-              >
-              </InputForm>
+              ></InputForm>
             </label>
             <Enrole>
               <BuckButton>
-                <Link href="/">
-                  キャンセル
-                </Link>
+                <Link href="/">キャンセル</Link>
               </BuckButton>
-              <InputColorButton type="submit">
-                投稿
-              </InputColorButton>
+              <InputColorButton type="submit">投稿</InputColorButton>
             </Enrole>
           </form>
         </Card>
@@ -98,8 +97,6 @@ function Edit() {
     </BG>
   );
 }
-
-export default Edit;
 
 const Enrole = styled.div`
   text-align: center;
@@ -119,7 +116,7 @@ const BG = styled.div`
 
 const ContentDiv = styled.div`
   position: relative;
-`
+`;
 
 const Card = styled.div`
   text-align: center;
@@ -131,12 +128,16 @@ const Card = styled.div`
   border-radius: 20px;
 `;
 
+const Cancel = styled.p`
+  text-align: center;
+`;
+
 const Title = styled.h1`
   margin: 10px 0;
   color: #fe9600;
   font-weight: 30px;
   text-stroke: 1px red;
-`
+`;
 
 const InputForm = styled.textarea`
   padding: 6px;
@@ -146,7 +147,7 @@ const InputForm = styled.textarea`
   resize: none;
   min-height: 150px;
   width: 90%;
-`
+`;
 
 const BuckButton = styled.div`
   border-color: #00000000;
@@ -156,7 +157,7 @@ const BuckButton = styled.div`
   margin: 8px 10px 0;
   border-radius: 6px;
   width: 40%;
-`
+`;
 
 const InputColorButton = styled.button`
   border-color: #00000000;
@@ -166,11 +167,11 @@ const InputColorButton = styled.button`
   margin: 8px 10px 0;
   border-radius: 6px;
   width: 40%;
-`
+`;
 
 const InputFile = styled.input`
   display: none;
-`
+`;
 
 const Label = styled.label`
   display: inline-block;
@@ -180,13 +181,13 @@ const Label = styled.label`
   border-radius: 6px;
   color: white;
   margin-bottom: 10px;
-`
+`;
 
 const ImgDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-`
+`;
 
 const CloseButton = styled.button`
   border-radius: 20px;
@@ -196,7 +197,7 @@ const CloseButton = styled.button`
   margin-left: 5px;
   background-color: #aaa;
   color: white;
-`
+`;
 
 const ImgContain = styled.div`
   height: 400px;
@@ -204,10 +205,12 @@ const ImgContain = styled.div`
   border: 2px solid #aaa;
   border-radius: 5px;
   background-color: #888;
-`
+`;
 
 const ThumbImg = styled.img`
   object-fit: contain;
   height: 100%;
   width: 100%;
-`
+`;
+
+export default Edit;

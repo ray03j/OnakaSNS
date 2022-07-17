@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import styled from "styled-components";
 import Block from "../components/Block";
 import Link from "next/link";
@@ -10,6 +10,15 @@ import { Props } from "../types/type";
 
 function Home() {
   const [posts, setPosts] = useState<Props[]>([]);
+
+  useLayoutEffect(() => {
+    const checkLogin = () => {
+      if (localStorage.getItem("token") === null) {
+        location.href = "/Signup";
+      }
+    };
+    checkLogin();
+  }, []);
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
@@ -72,6 +81,30 @@ function Home() {
   );
 }
 export default Home;
+
+// Home.getInitialProps = async ({ res }) => {
+//   // サーバー側でリダイレクト
+//   let temp;
+//   try {
+//     temp = localStorage.getItem("token");
+//   } catch (err) {
+//     console.error();
+//   }
+//   if (temp === null) {
+//     if (typeof window === "undefined") {
+//       res.writeHead(302, { Location: "/Signup" });
+//       res.end();
+
+//       return {};
+//     }
+
+//     // クライアント側でリダイレクト
+
+//     Router.push("/Signup");
+//   }
+
+//   return {};
+// };
 
 const Entire = styled.div`
   display: flex;
