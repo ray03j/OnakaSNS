@@ -18,8 +18,8 @@ export interface Props {
   image_url: string;
   id: string;
   user: User;
-  FunnyUsers: [];
-  YummyUsers: [];
-  created_at: Date;
-  updated_at: Date;
+  funny_users: Array<User>;
+  yummy_users: Array<User>;
+  created_at: string;
+  updated_at: string;
 }
