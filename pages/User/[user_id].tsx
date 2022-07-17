@@ -37,6 +37,8 @@ const UserPost = () => {
       <BG>
         <Entire>
           <CenterSection>
+            <UserName>{posts[0]?.user.name}</UserName>
+            <PostNum>投稿数：{posts.length}</PostNum>
             {posts.map((e) => {
               return (
                 <BlockLine key={e.id}>
@@ -89,6 +91,22 @@ const PostIco = styled.div`
   display: flex;
   align-content: center;
   justify-content: center;
+`;
+
+const UserName = styled.div`
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin: 3% 5%;
+  padding: 0 3%;
+  background: #fff48f;
+  border-radius: 10px;
+`;
+
+const PostNum = styled.div`
+  margin-left: 6%;
+  font-size: 1.5rem;
+  font-weight: bold;
 `;
 
 export default UserPost;
