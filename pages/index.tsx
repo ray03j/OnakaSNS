@@ -29,14 +29,14 @@ function Home() {
 
   const dt: Props[] = JSON.parse(testdata);
 
-  useLayoutEffect(() => {
-    const checkLogin = async () => {
-      if ((await localStorage.getItem("token")) === null) {
-        location.href = "/Signup";
-      }
-    };
-    checkLogin();
-  }, []);
+  // useLayoutEffect(() => {
+  //   const checkLogin = async () => {
+  //     if ((await localStorage.getItem("token")) === null) {
+  //       location.href = "/Signup";
+  //     }
+  //   };
+  //   checkLogin();
+  // }, []);
 
   return (
     <div>

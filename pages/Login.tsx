@@ -26,6 +26,7 @@ function Login() {
       const jwt = await instance.post(`/api/v1/users/signin`, postData);
       console.log(jwt.data);
       localStorage.setItem("token", jwt.data.jwt);
+      location.href = jwt.data.jwt ? "/" : "/Signup";
     };
 
     try {
@@ -62,9 +63,7 @@ function Login() {
         </div>
 
         <button onClick={postFunc}>
-          <Link href="/">
-            <a>ログイン</a>
-          </Link>
+          <a>ログイン</a>
         </button>
 
         <Enrole>
