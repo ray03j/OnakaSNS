@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Props } from "../types/type";
 import styled from "styled-components";
+import Button from './Button';
+import { instance } from "../utils/instance";
 
 const Block: React.FC<{ props: Props }> = ({ props }) => {
   const formatDate = (date: string) => {
@@ -14,8 +16,55 @@ const Block: React.FC<{ props: Props }> = ({ props }) => {
 
     return `${year}/${month}/${dates} ${hours}:${minutes}:${seconds}`
   }
+  const DeleteYummy = () =>{
+    const tokenValue = localStorage.getItem('token')
+    instance.delete('/yummy/' + props.id, {
+      'headers': {'Authorization': "Bearer " + tokenValue} 
+    }).then((res)=>{
+      console.log(res.data)
+      setYummyFlag(false)
+      setYummyCount(yummyCount-1)
+    })
+  }
+
+  const PostYummy = () =>{
+    const tokenValue = localStorage.getItem('token')
+    instance.post('/yummy/' + props.id, null, {
+      'headers': {'Authorization': "Bearer " + tokenValue} 
+    }).then((res)=>{
+      console.log(res.data)
+      setYummyFlag(true)
+      setYummyCount(yummyCount+1)
+    })
+    
+  }
+
+  const DeleteFunny = () =>{
+    const tokenValue = localStorage.getItem('token')
+    instance.delete('/funny/' + props.id, {
+      'headers': {'Authorization': "Bearer " + tokenValue} 
+    }).then((res)=>{
+      console.log(res.data)
+      setFunnyFlag(false)
+      setFunnyCount(funnyCount-1)
+    })
+  }
+
+  const PostFunny = () =>{
+    const tokenValue = localStorage.getItem('token')
+    instance.post('/funny/' + props.id, null, {
+      'headers': {'Authorization': "Bearer " + tokenValue} 
+    }).then((res)=>{
+      console.log(res.data)
+      setFunnyFlag(true)
+      setFunnyCount(funnyCount+1)
+    })
+    
+  }
   const [yummyFlag, setYummyFlag] = useState<boolean>(false)
   const [funnyFlag, setFunnyFlag] = useState<boolean>(false)
+  const [yummyCount, setYummyCount] = useState<number>(0)
+  const [funnyCount, setFunnyCount] = useState<number>(0)
 
   useEffect(() => {
     const uid = localStorage.getItem("user_id")
@@ -27,6 +76,8 @@ const Block: React.FC<{ props: Props }> = ({ props }) => {
       if (user.id == uid)
         setYummyFlag(true)
     })
+    setYummyCount(props.yummy_users.length)
+    setFunnyCount(props.funny_users.length)
   }, [])
 
   return (
@@ -39,21 +90,21 @@ const Block: React.FC<{ props: Props }> = ({ props }) => {
         <p>Posted by {props.user.name}</p>
         <Buttons>
           {yummyFlag ? (
-            <PushedYummyButton>
-              Yummy! {props.yummy_users.length}
+            <PushedYummyButton onClick={()=>DeleteYummy()}>
+              Yummy! {yummyCount}
             </PushedYummyButton>
           ):(
-            <UnpushYummyButton>
-              Yummy! {props.yummy_users.length}
+            <UnpushYummyButton onClick={()=>PostYummy()}>
+              Yummy! {yummyCount}
             </UnpushYummyButton>
           )}
           {funnyFlag ? (
-            <PushedFunnyButton>
-              Funny! {props.funny_users.length}
+            <PushedFunnyButton onClick={()=>DeleteFunny()}>
+              Funny! {funnyCount}
             </PushedFunnyButton>
           ):(
-            <UnpushFunnyButton>
-              Funny! {props.funny_users.length}
+            <UnpushFunnyButton onClick={()=>PostFunny()}>
+              Funny! {funnyCount}
             </UnpushFunnyButton>
           )}
         </Buttons>
