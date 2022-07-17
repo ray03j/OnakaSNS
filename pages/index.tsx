@@ -78,7 +78,7 @@ function Home() {
 export default Home;
 
 Home.getInitialProps = async ({ res }) => {
-  if (localStorage.getItem("token") === null) {
+  if ((await localStorage.getItem("token")) === null) {
     // サーバー側でリダイレクト
     if (typeof window === "undefined") {
       res.writeHead(302, { Location: "/Signup" });
