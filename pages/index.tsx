@@ -87,13 +87,13 @@ function Home() {
 export default Home;
 
 Home.getInitialProps = async ({ res }) => {
-  // サーバー側でリダイレクト
-  if (typeof window === "undefined") {
-    res.writeHead(302, { Location: "/Signup" });
-    res.end();
+  // // サーバー側でリダイレクト
+  // if (typeof window === "undefined") {
+  //   res.writeHead(302, { Location: "/Signup" });
+  //   res.end();
 
-    return {};
-  }
+  //   return {};
+  // }
 
   // クライアント側でリダイレクト
   if ((await localStorage.getItem("token")) === null) {
