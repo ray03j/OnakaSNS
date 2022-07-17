@@ -1,16 +1,12 @@
 import { useLayoutEffect, useState } from "react";
 import { instance } from "../../utils/instance";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Block from "../../components/Block";
-import Link from "next/link";
 import { Props } from "../../types/type";
 import { useRouter } from "next/router";
 
 const UserPost = () => {
-  //const user_id: string = useParams();
   const router = useRouter();
-  //console.log(user_id);
   const [posts, setPost] = useState<Props[]>([]);
   useLayoutEffect(() => {
     if (!router.isReady) {
