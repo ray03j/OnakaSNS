@@ -1,43 +1,30 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Block from "../components/Block";
 import Link from "next/link";
-import Router from "next/router";
-
-interface Props {
-  ID: string;
-  content: string;
-  image_url: string;
-}
+import { instance } from "../utils/instance";
+import { Props } from "../types/type";
 
 function Home() {
-  const testdata: string = `[
-    {
-        "ID": "q",
-        "content": "test01",
-        "image_url": "https://www.bing.com/images/search?view=detailV2&ccid=BohA6%2flu&id=564678967B3F5C03BC27827CAE14A4E99B7C4BE6&thid=OIP.BohA6_lucu8jKzkHYaWw4AHaE8&mediaurl=https%3a%2f%2fimage.walkerplus.com%2fwpimg%2fwalkertouch%2fwtd%2fevent%2f23%2fn%2f17523_2.jpg&exph=534&expw=800&q=%e7%94%bb%e5%83%8f&simid=607996704694470110&FORM=IRPRST&ck=809CFC791C7B85832A6EBE3C50DB9D60&selectedIndex=12"
-    },
-    {
-        "ID": "p",
-        "content": "test02",
-        "image_url": "https://www.bing.com/images/search?view=detailV2&ccid=NPBCoykF&id=308460489BC801D42C5DED9E7C03E89B1372AE28&thid=OIP.NPBCoykFu1krDFxVWG7zKgHaFj&mediaurl=https%3a%2f%2fzukan.com%2fmedia%2fcomment%2foriginal%2fcomment_6388_20190117133648.jpg&exph=2748&expw=3664&q=%e7%94%bb%e5%83%8f&simid=608004684744641100&FORM=IRPRST&ck=AA10353861A7C21A8E5838E61ABD4EAD&selectedIndex=5"
+  const [posts, setPosts] = useState<Props[]>([]);
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("token");
+    async function fetchPostData() {
+      await instance
+        .get("/posts", {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+        .then((res) => setPosts(res.data));
     }
-]`;
-
-  const dt: Props[] = JSON.parse(testdata);
-
-  useLayoutEffect(() => {
-    const checkLogin = () => {
-      if (localStorage.getItem("token") === null) {
-        location.href = "/Signup";
-      }
-    };
-    checkLogin();
+    fetchPostData();
+    console.log(posts);
   }, []);
-
   return (
     <div>
       <Head>
@@ -55,9 +42,9 @@ function Home() {
         </LeftSection>
 
         <CenterSection>
-          {dt.map((e) => {
+          {posts.map((e) => {
             return (
-              <div key={e.ID}>
+              <div key={e.id}>
                 <Block props={e} />
               </div>
             );

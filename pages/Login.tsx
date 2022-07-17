@@ -37,9 +37,9 @@ function Login() {
 
   return (
     <BG>
-      <Card>
-        <Title>ログイン画面</Title>
-        <div>
+      <ContentDiv>
+        <Card>
+          <Title>ログイン画面</Title>
           <div>
             <label>
               <div>メールアドレス</div>
@@ -75,15 +75,15 @@ function Login() {
               </Link>
             </InputButton>
           </Enrole>
-        </div>
-      </Card>
+        </Card>
+      </ContentDiv>
     </BG>
   );
 }
 
 export default Login;
 
-const Enrole = styled.p`
+const Enrole = styled.div`
   text-align: center;
 
   display: flex;
@@ -94,9 +94,15 @@ const Enrole = styled.p`
 
 const BG = styled.div`
   background-color: #ffee4a;
+  background-size: cover;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
+`;
+
+const ContentDiv = styled.div`
+  position: relative;
 `;
 
 const Card = styled.div`
@@ -107,7 +113,6 @@ const Card = styled.div`
   padding: 1em 30px;
   margin: 30px 0;
   border-radius: 20px;
-  position: absolute;
 `;
 
 const Title = styled.h1`
