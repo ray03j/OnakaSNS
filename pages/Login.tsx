@@ -22,7 +22,6 @@ function Login() {
         Email: email,
         Password: password
       };
-  
       const jwt = await instance.post(
         `/api/v1/users/signin`, postData
       );
@@ -39,55 +38,100 @@ function Login() {
   }
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '2em'}}><h1>ログイン画面</h1>
-      <div>
-
+    <BG>
+      <Card>
+        <Title>ログイン画面</Title>
         <div>
-          <label>
-            <div>メールアドレス</div>
-            <input
-              name="email"
-              type="email"
-              onChange={(e) => setEmail(e. target.value)}
-            />
-          </label>
-        </div>
-
-        <div>
-         <label>
-            <div>パスワード</div> 
-            <input
-              name="password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
+          <div>
+            <label>
+              <div>メールアドレス</div>
+              <InputForm
+                name="email"
+                type="email"
+                onChange={(e) => setEmail(e. target.value)}
               />
-          </label>
-        </div>
-
-        <button  onClick={postFunc}>
-            <Link href="/">
-              <a>ログイン</a>
-            </Link>
-          </button>
-        
+            </label>
+          </div>
+          <div>
+            <label>
+              <div>パスワード</div> 
+              <InputForm
+                name="password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                />
+            </label>
+          </div>
           <Enrole>
-            <button type="submit">
+            <InputButton onClick={postFunc}>
+              <Link href="/">
+                <a>ログイン</a>
+              </Link>
+            </InputButton>
+            <InputButton type="submit">
               <Link href="/Signup">
                 <a><div>新規登録画面へ</div></a>
               </Link>
-            </button>
+            </InputButton>
           </Enrole>
-          
-
-     </div>
-   </div>
+        </div>
+      </Card>
+    </BG>
   );
 }
 
 export default Login;
 
-
 const Enrole = styled.p`
-text-align: center;
-
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
 `;
+
+const BG = styled.div`
+  background-color: #ffee4a;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const Card = styled.div`
+  text-align: center;
+  padding-top: 2em;
+  max-width: 800px;
+  background-color: white;
+  padding: 1em 30px;
+  margin: 30px 0;
+  border-radius: 20px;
+  position: absolute;
+`;
+
+const Title = styled.h1`
+  margin: 10px 0;
+  color: #fe9600;
+`
+
+const InputForm = styled.input`
+  padding: 4px 23px;
+  margin: 5px 30px;
+  border-radius: 5px;
+  border: 2px solid #fe9600;
+`
+
+const InputButton = styled.button`
+  border-color: #00000000;
+  background-color: #fe9600;
+  color: white;
+  padding: 7px;
+  margin-top: 8px;
+  border-radius: 6px;
+  display: inline-block;
+`
+
+// .color-0 { color: #fe9600; }
+// .color-1 { color: #ffc501; }
+// .color-2 { color: #ffee4a; }
+// .color-3 { color: #77477e; }
+// .color-4 { color: #03001c; }
