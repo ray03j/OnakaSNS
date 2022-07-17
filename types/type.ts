@@ -4,7 +4,7 @@ interface Base {
   updated_at: Date;
 }
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
