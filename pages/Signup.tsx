@@ -42,58 +42,60 @@ function Signup() {
 
   return (
     <BG>
-      <Card>
-        <Title>新規登録画面</Title>
-        <div>
+      <ContentDiv>
+        <Card>
+          <Title>新規登録画面</Title>
           <div>
-            <label>
-              <div>ユーザー名</div>
-              <InputForm
-                name="username"
-                type="text"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </label>
+            <div>
+              <label>
+                <div>ユーザー名</div>
+                <InputForm
+                  name="username"
+                  type="text"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                <div>メールアドレス</div>
+                <InputForm
+                  name="email"
+                  type="email"
+                  onChange={(e) => setEmail(e. target.value)}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                <div>パスワード</div> 
+                <InputForm
+                  name="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
+            </div>
+            <Enrole>
+              <InputButton onClick = {postFunc}>
+                <a>新規登録</a>
+              </InputButton>
+              <InputButton type="submit">
+                <Link href="/Login">
+                  <a><div>ログイン画面へ</div></a>
+                </Link>
+              </InputButton>
+            </Enrole>
           </div>
-          <div>
-            <label>
-              <div>メールアドレス</div>
-              <InputForm
-                name="email"
-                type="email"
-                onChange={(e) => setEmail(e. target.value)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              <div>パスワード</div> 
-              <InputForm
-                name="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-          </div>
-          <Enrole>
-            <InputButton onClick = {postFunc}>
-              <a>新規登録</a>
-            </InputButton>
-            <InputButton type="submit">
-              <Link href="/Login">
-                <a><div>ログイン画面へ</div></a>
-              </Link>
-            </InputButton>
-          </Enrole>
-        </div>
-      </Card>
+        </Card>
+      </ContentDiv>
     </BG>
   );
 }
 
 export default Signup;
 
-const Enrole = styled.p`
+const Enrole = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -103,10 +105,16 @@ const Enrole = styled.p`
 
 const BG = styled.div`
   background-color: #ffee4a;
+  background-size: cover;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 `;
+
+const ContentDiv = styled.div`
+  position: relative;
+`
 
 const Card = styled.div`
   text-align: center;
@@ -116,7 +124,6 @@ const Card = styled.div`
   padding: 1em 30px;
   margin: 30px 0;
   border-radius: 20px;
-  position: absolute;
 `;
 
 const Title = styled.h1`

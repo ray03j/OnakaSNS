@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import styled from "styled-components";
 import Block from "../components/Block";
 import Link from "next/link";
@@ -10,6 +10,15 @@ import { Props } from "../types/type";
 
 function Home() {
   const [posts, setPosts] = useState<Props[]>([]);
+
+  useLayoutEffect(() => {
+    const checkLogin = () => {
+      if (localStorage.getItem("token") === null) {
+        location.href = "/Signup";
+      }
+    };
+    checkLogin();
+  }, []);
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
