@@ -26,8 +26,8 @@ function Login() {
       const jwt = await instance.post(
         `/api/v1/users/signin`, postData
       );
-      console.log(jwt);
-//トークンの取得をする
+      console.log(jwt.data);
+      localStorage.setItem('token',JSON.stringify(jwt.data));
     }
 
     try{
@@ -40,7 +40,7 @@ function Login() {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '2em'}}><h1>ログイン画面</h1>
-      <form onSubmit={loginSend}>
+      <div>
 
         <div>
           <label>
@@ -64,7 +64,7 @@ function Login() {
           </label>
         </div>
 
-        <button type="submit">
+        <button  onClick={postFunc}>
             <Link href="/">
               <a>ログイン</a>
             </Link>
@@ -79,7 +79,7 @@ function Login() {
           </Enrole>
           
 
-     </form>
+     </div>
    </div>
   );
 }
