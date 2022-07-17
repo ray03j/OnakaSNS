@@ -27,7 +27,7 @@ function Login() {
         `/api/v1/users/signin`, postData
       );
       console.log(jwt.data);
-      localStorage.setItem('token',JSON.stringify(jwt.data));
+      localStorage.setItem('token',jwt.data.jwt);
     }
 
     try{
