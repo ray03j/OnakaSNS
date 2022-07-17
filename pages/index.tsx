@@ -78,18 +78,20 @@ function Home() {
 export default Home;
 
 Home.getInitialProps = async ({ res }) => {
-  // サーバー側でリダイレクト
-  if (typeof window === "undefined") {
-    res.writeHead(302, { Location: "/Signup" });
-    res.end();
+  if (localStorage.getItem("token") === null) {
+    // サーバー側でリダイレクト
+    if (typeof window === "undefined") {
+      res.writeHead(302, { Location: "/Signup" });
+      res.end();
+
+      return {};
+    }
+
+    // クライアント側でリダイレクト
+    Router.push("/Signup");
 
     return {};
   }
-
-  // クライアント側でリダイレクト
-  Router.push("/Signup");
-
-  return {};
 };
 
 const Entire = styled.div`
