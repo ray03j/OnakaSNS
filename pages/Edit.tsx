@@ -3,12 +3,17 @@ import Link from "next/link";
 import styled from "styled-components";
 import getUrl from "../losic/Cloudinary";
 import { instance } from "../utils/instance";
+import * as z from "zod";
 
 function Edit() {
   const [sentence, setSentence] = useState("");
+  const [sentenceLength, setSentenceLength] = useState(0);
   const [image, uploadImage] = useState<FileList>();
   const [imgXml, setImgXml] = useState<JSX.Element>(<></>);
 
+  useEffect(()=>{
+    setSentenceLength(100-sentence.length);
+  },[sentence])
   const SentenceSend = async (e) => {
     e.preventDefault();
     if (!image) {
@@ -16,6 +21,13 @@ function Edit() {
       return;
     }
     console.log(sentence);
+    try{
+      const ok = limit.parse({str: sentence})
+    }catch(err){
+      alert("100文字を超えています！");
+      return
+    }
+  
     const image_url = await getUrl(image);
     const token = localStorage.getItem("token");
     const res = await instance.post(
@@ -31,6 +43,9 @@ function Edit() {
     location.href = "/"
   };
 
+  const limit = z.object({
+    str: z.string().max(100)
+  })
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -86,6 +101,11 @@ function Edit() {
                 required
               ></InputForm>
             </label>
+            {sentenceLength<0?(
+              <OverSentence>残り{sentenceLength}字</OverSentence>
+            ):(
+              <RemainSentence>残り{sentenceLength}字</RemainSentence>
+            )}
             <Enrole>
               <BuckButton>
                 <Link href="/">キャンセル</Link>
@@ -98,6 +118,16 @@ function Edit() {
     </BG>
   );
 }
+
+const RemainSentence = styled.p`
+  font-weight: bold;
+  color: #ffc501;
+`
+
+const OverSentence = styled.p`
+  font-weight: bold;
+  color: #ff0000;
+`
 
 const Enrole = styled.div`
   text-align: center;
