@@ -3,6 +3,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import getUrl from "../losic/Cloudinary";
 import { instance } from "../utils/instance";
+import * as z from "zod";
 
 function Edit() {
   const [sentence, setSentence] = useState("");
@@ -16,6 +17,13 @@ function Edit() {
       return;
     }
     console.log(sentence);
+    try{
+      const ok = limit.parse({str: sentence})
+    }catch(err){
+      alert("100文字を超えています！");
+      return
+    }
+  
     const image_url = await getUrl(image);
     const token = localStorage.getItem("token");
     const res = await instance.post(
@@ -31,6 +39,9 @@ function Edit() {
     location.href = "/"
   };
 
+  const limit = z.object({
+    str: z.string().max(100)
+  })
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
