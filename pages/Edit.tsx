@@ -113,7 +113,7 @@ function Edit() {
                 <Link href="/">キャンセル</Link>
               </BuckButton>
               <InputColorButton disabled={isPosting} type="submit">
-                おなポイ
+                おなポイ!
               </InputColorButton>
             </Enrole>
           </form>
