@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 const UserPost = () => {
   const router = useRouter();
   const [posts, setPost] = useState<Props[]>([]);
+  const [isGot, setIsGot] = useState<boolean>(false);
   useLayoutEffect(() => {
     if (!router.isReady) {
       return;
@@ -20,6 +21,7 @@ const UserPost = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPost(userposts.data);
+      setIsGot(true);
     };
     try {
       getUserPost();
@@ -34,7 +36,7 @@ const UserPost = () => {
         <Entire>
           <CenterSection>
             <UserName>{posts[0]?.user.name}</UserName>
-            <PostNum>投稿数：{posts.length}</PostNum>
+            {isGot ? <PostNum>投稿数：{posts.length}</PostNum> : <></>}
             {posts.map((e) => {
               return (
                 <BlockLine key={e.id}>
