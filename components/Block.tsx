@@ -92,7 +92,7 @@ const Block: React.FC<{ props: Props }> = ({ props }) => {
       <ContentDiv>
         <h1>{props.content}</h1>
         <Link href={"/User/" + props.user.id}>
-          <p>Posted by {props.user.name}</p>
+          <p>Posted by <LinkSpan>{props.user.name}</LinkSpan></p>
         </Link>
         <Buttons>
           {yummyFlag ? (
@@ -140,6 +140,12 @@ const Block: React.FC<{ props: Props }> = ({ props }) => {
   );
 };
 export default Block;
+
+const LinkSpan = styled.span`
+  color: #77477e;
+  font-weight: bold;
+  text-decoration: underline;
+`
 
 const FoodSvgDiv = styled.div`
   fill: #ffc501;
