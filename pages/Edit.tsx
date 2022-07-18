@@ -10,11 +10,11 @@ function Edit() {
   const [sentenceLength, setSentenceLength] = useState(0);
   const [image, uploadImage] = useState<FileList>();
   const [imgXml, setImgXml] = useState<JSX.Element>(<></>);
-  const [isPosting, setIsPosting] = useState<boolean>(false)
+  const [isPosting, setIsPosting] = useState<boolean>(false);
 
-  useEffect(()=>{
-    setSentenceLength(100-sentence.length);
-  },[sentence])
+  useEffect(() => {
+    setSentenceLength(100 - sentence.length);
+  }, [sentence]);
   const SentenceSend = async (e) => {
     setIsPosting(true);
     e.preventDefault();
@@ -23,13 +23,13 @@ function Edit() {
       return;
     }
     console.log(sentence);
-    try{
-      const ok = limit.parse({str: sentence})
-    }catch(err){
+    try {
+      const ok = limit.parse({ str: sentence });
+    } catch (err) {
       alert("100文字を超えています！");
-      return
+      return;
     }
-  
+
     const image_url = await getUrl(image);
     const token = localStorage.getItem("token");
     const res = await instance.post(
@@ -42,12 +42,12 @@ function Edit() {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    location.href = "/"
+    location.href = "/";
   };
 
   const limit = z.object({
-    str: z.string().max(100)
-  })
+    str: z.string().max(100),
+  });
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -103,16 +103,18 @@ function Edit() {
                 required
               ></InputForm>
             </label>
-            {sentenceLength<0?(
+            {sentenceLength < 0 ? (
               <OverSentence>残り{sentenceLength}字</OverSentence>
-            ):(
+            ) : (
               <RemainSentence>残り{sentenceLength}字</RemainSentence>
             )}
             <Enrole>
               <BuckButton>
                 <Link href="/">キャンセル</Link>
               </BuckButton>
-              <InputColorButton disabled={isPosting} type="submit">投稿</InputColorButton>
+              <InputColorButton disabled={isPosting} type="submit">
+                おなポイ
+              </InputColorButton>
             </Enrole>
           </form>
         </Card>
@@ -124,12 +126,12 @@ function Edit() {
 const RemainSentence = styled.p`
   font-weight: bold;
   color: #ffc501;
-`
+`;
 
 const OverSentence = styled.p`
   font-weight: bold;
   color: #ff0000;
-`
+`;
 
 const Enrole = styled.div`
   text-align: center;
@@ -170,7 +172,6 @@ const Title = styled.h1`
   color: #fe9600;
   font-weight: 30px;
 `;
-
 
 const InputForm = styled.textarea`
   padding: 6px;
