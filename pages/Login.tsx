@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import axios from "axios";
+import * as z from "zod";
 
 const instance = axios.create({
   baseURL: "https://onaka-api.herokuapp.com/",
@@ -16,12 +17,27 @@ function Login() {
     /* バックエンドに送る処理に変える */
   };
 
+  const postDataChecker = z.object({
+    Email: z
+      .string()
+      .min(1, { message: "Emailを入力してください" })
+      .email({ message: "Emailの型にになっていません" }),
+    Password: z.string().min(1, { message: "パスワードを入力してください" }),
+  });
+
   const postFunc = () => {
     const loginUser = async () => {
       const postData = {
         Email: email,
         Password: password,
       };
+      try {
+        postDataChecker.parse(postData);
+      } catch (err) {
+        console.error(err);
+        alert(err.issues[0].message);
+        return;
+      }
       const jwt = await instance.post(`/api/v1/users/signin`, postData);
       console.log(jwt.data);
       localStorage.setItem("token", jwt.data.jwt);
@@ -35,11 +51,11 @@ function Login() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-      location.href = "/"
+      location.href = "/";
     }
-  },[])
+  }, []);
 
   return (
     <BG>
@@ -69,7 +85,7 @@ function Login() {
           <Enrole>
             <InputButton
               onClick={postFunc}
-              disabled={!(email !== "" && password !== "")}
+              // disabled={!(email !== "" && password !== "")}
             >
               <div>ログイン</div>
             </InputButton>
