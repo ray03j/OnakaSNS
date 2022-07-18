@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Link from 'next/link'
 import styled from 'styled-components';
 import axios from 'axios';
+import { z } from 'zod';
 
 const instance = axios.create({
   baseURL: 'https://onaka-api.herokuapp.com/'
@@ -18,12 +19,24 @@ function Signup() {
              /* バックエンドに送る処理に変える */
 //  };
 
+  const postDataChecker = z.object({
+    Name: z.string(),
+    Email: z.string().email({message:"Emailの型にになっていません"}),
+    Password: z.string()
+  })
+
   const postFunc = () => {
     const postData = {
       Name: username,
       Email: email,
       Password: password
     };
+    try {
+      postDataChecker.parse(postData)
+    } catch(err) {
+      alert(err.message)
+      return
+    }
     instance.post(
       `/api/v1/users/signup`, postData
     ).then(() => {
