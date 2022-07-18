@@ -34,14 +34,24 @@ function Login() {
       try {
         postDataChecker.parse(postData);
       } catch (err) {
-        console.error(err);
         alert(err.issues[0].message);
         return;
       }
-      const jwt = await instance.post(`/api/v1/users/signin`, postData);
-      console.log(jwt.data);
-      localStorage.setItem("token", jwt.data.jwt);
-      location.href = jwt.data.jwt ? "/" : "/Signup";
+      try {
+        const jwt = await instance.post(`/api/v1/users/signin`, postData);
+        localStorage.setItem("token", jwt.data.jwt);
+        location.href = jwt.data.jwt ? "/" : "/Signup";
+      } catch (err) {
+        console.error(err);
+        if (err.response.data.message === "record not found") {
+          alert("Emailが登録されていません");
+        } else if (
+          err.response.data.message ===
+          "crypto/bcrypt: hashedPassword is not the hash of the given password"
+        ) {
+          alert("パスワードが違います");
+        }
+      }
     };
 
     try {
