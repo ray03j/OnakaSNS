@@ -101,7 +101,11 @@ function Edit() {
                 required
               ></InputForm>
             </label>
-            <p>残り{sentenceLength}字</p>
+            {sentenceLength<0?(
+              <OverSentence>残り{sentenceLength}字</OverSentence>
+            ):(
+              <RemainSentence>残り{sentenceLength}字</RemainSentence>
+            )}
             <Enrole>
               <BuckButton>
                 <Link href="/">キャンセル</Link>
@@ -114,6 +118,16 @@ function Edit() {
     </BG>
   );
 }
+
+const RemainSentence = styled.p`
+  font-weight: bold;
+  color: #ffc501;
+`
+
+const OverSentence = styled.p`
+  font-weight: bold;
+  color: #ff0000;
+`
 
 const Enrole = styled.div`
   text-align: center;
