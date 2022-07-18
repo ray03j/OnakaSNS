@@ -8,8 +8,10 @@ function Edit() {
   const [sentence, setSentence] = useState("");
   const [image, uploadImage] = useState<FileList>();
   const [imgXml, setImgXml] = useState<JSX.Element>(<></>);
+  const [isPosting, setIsPosting] = useState<boolean>(false)
 
   const SentenceSend = async (e) => {
+    setIsPosting(true);
     e.preventDefault();
     if (!image) {
       alert("画像を選択してください");
@@ -90,7 +92,7 @@ function Edit() {
               <BuckButton>
                 <Link href="/">キャンセル</Link>
               </BuckButton>
-              <InputColorButton type="submit">投稿</InputColorButton>
+              <InputColorButton disabled={isPosting} type="submit">投稿</InputColorButton>
             </Enrole>
           </form>
         </Card>
