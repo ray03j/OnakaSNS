@@ -18,9 +18,12 @@ function Login() {
   };
 
   const postDataChecker = z.object({
-    Email: z.string().email({message:"Emailの型にになっていません"}),
-    Password: z.string()
-  })
+    Email: z
+      .string()
+      .min(1, { message: "Emailを入力してください" })
+      .email({ message: "Emailの型にになっていません" }),
+    Password: z.string().min(1, { message: "パスワードを入力してください" }),
+  });
 
   const postFunc = () => {
     const loginUser = async () => {
@@ -29,10 +32,11 @@ function Login() {
         Password: password,
       };
       try {
-        postDataChecker.parse(postData)
-      } catch(err) {
-        alert(err.message)
-        return
+        postDataChecker.parse(postData);
+      } catch (err) {
+        console.error(err);
+        alert(err.issues[0].message);
+        return;
       }
       const jwt = await instance.post(`/api/v1/users/signin`, postData);
       console.log(jwt.data);
@@ -47,11 +51,11 @@ function Login() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-      location.href = "/"
+      location.href = "/";
     }
-  },[])
+  }, []);
 
   return (
     <BG>
@@ -81,7 +85,7 @@ function Login() {
           <Enrole>
             <InputButton
               onClick={postFunc}
-              disabled={!(email !== "" && password !== "")}
+              // disabled={!(email !== "" && password !== "")}
             >
               <div>ログイン</div>
             </InputButton>
