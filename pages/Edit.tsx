@@ -7,9 +7,13 @@ import * as z from "zod";
 
 function Edit() {
   const [sentence, setSentence] = useState("");
+  const [sentenceLength, setSentenceLength] = useState(0);
   const [image, uploadImage] = useState<FileList>();
   const [imgXml, setImgXml] = useState<JSX.Element>(<></>);
 
+  useEffect(()=>{
+    setSentenceLength(100-sentence.length);
+  },[sentence])
   const SentenceSend = async (e) => {
     e.preventDefault();
     if (!image) {
@@ -97,6 +101,7 @@ function Edit() {
                 required
               ></InputForm>
             </label>
+            <p>残り{sentenceLength}字</p>
             <Enrole>
               <BuckButton>
                 <Link href="/">キャンセル</Link>
