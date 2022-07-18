@@ -7,42 +7,41 @@ import Block from "../components/Block";
 import Link from "next/link";
 import { instance } from "../utils/instance";
 import { Props } from "../types/type";
+import { useRouter } from "next/router";
 
 function Home() {
   const [posts, setPosts] = useState<Props[]>([]);
+  const router = useRouter();
 
   useLayoutEffect(() => {
     const checkLogin = () => {
       if (localStorage.getItem("token") === null) {
-        location.href = "/Signup";
+        router.push("/Signup");
+        //location.href = "/Signup";
       }
     };
     checkLogin();
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const jwt = localStorage.getItem("token");
-    instance.get(
-      "/users/@me", {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        }
-      }
-    ).then((res) => {
-      localStorage.setItem("user_id", res.data.id)
-      instance.get("/posts", {
+    instance
+      .get("/users/@me", {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      }).then((res) => setPosts(res.data));
-    })
+      })
+      .then((res) => {
+        localStorage.setItem("user_id", res.data.id);
+        instance
+          .get("/posts", {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          })
+          .then((res) => setPosts(res.data));
+      });
   }, []);
-
-  const LogOut = () => {
-    localStorage.removeItem("token")
-    location.href = "/Signup"
-  }
-
   return (
     <div>
       <Head>
@@ -52,16 +51,9 @@ function Home() {
       </Head>
       <PostIco>
         <Link href="/Edit">
-          <SvgDiv>
-            <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M9 39h2.2l22.15-22.15-2.2-2.2L9 36.8Zm30.7-24.3-6.4-6.4 2.1-2.1q.85-.85 2.1-.85t2.1.85l2.2 2.2q.85.85.85 2.1t-.85 2.1Zm-2.1 2.1L12.4 42H6v-6.4l25.2-25.2Zm-5.35-1.05-1.1-1.1 2.2 2.2Z"/></svg>
-          </SvgDiv>
+          <input type="image" src="edit.svg" />
         </Link>
       </PostIco>
-      <LogOutButton
-        onClick={LogOut}
-      >
-        Sign Out
-      </LogOutButton>
       <BG>
         <Entire>
           <CenterSection>
@@ -75,18 +67,6 @@ function Home() {
           </CenterSection>
         </Entire>
       </BG>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
@@ -116,40 +96,21 @@ const BlockLine = styled.div`
   text-align: center;
   display: flex;
   justify-content: center;
-`
+`;
 
 const PostIco = styled.div`
   left: 30px;
   top: 30px;
   position: absolute;
-  background-color: #ffee4a;
-  height: 70px;
-  width: 70px;
-  padding: 7px;
-  border-radius: 35px;
+  background-color: #bbb;
+  height: 60px;
+  width: 60px;
+  padding: 5px;
+  border-radius: 30px;
   display: flex;
   align-content: center;
   justify-content: center;
-  border: #77477e solid 3px;
-`
-
-const SvgDiv = styled.div`
-  fill: #77477e;
-`
-
-const LogOutButton = styled.button`
-  left: 120px;
-  top: 30px;
-  position: absolute;
-  background-color: #ffee4a;
-  height: 70px;
-  width: 70px;
-  padding: 7px;
-  border-radius: 35px;
-  border: #77477e solid 3px;
-  color: #77477e;
-  font-weight: bold;
-`
+`;
 
 // .color-0 { color: #fe9600; }
 // .color-1 { color: #ffc501; }
