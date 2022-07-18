@@ -43,16 +43,15 @@ function Home() {
       });
   }, []);
 
-
   const LogOut = () => {
-    localStorage.removeItem("token")
-    location.href = "/Signup"
-  }
+    localStorage.removeItem("token");
+    location.href = "/Signup";
+  };
 
   const GoMyPage = () => {
-    const user_id = localStorage.getItem("user_id")
-    location.href = `/User/${user_id}`
-  }
+    const user_id = localStorage.getItem("user_id");
+    location.href = `/User/${user_id}`;
+  };
 
   return (
     <div>
@@ -67,20 +66,14 @@ function Home() {
           <PostIco>
             <Link href="/Edit">
               <SvgDiv>
-                <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M9 39h2.2l22.15-22.15-2.2-2.2L9 36.8Zm30.7-24.3-6.4-6.4 2.1-2.1q.85-.85 2.1-.85t2.1.85l2.2 2.2q.85.85.85 2.1t-.85 2.1Zm-2.1 2.1L12.4 42H6v-6.4l25.2-25.2Zm-5.35-1.05-1.1-1.1 2.2 2.2Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+                  <path d="M9 39h2.2l22.15-22.15-2.2-2.2L9 36.8Zm30.7-24.3-6.4-6.4 2.1-2.1q.85-.85 2.1-.85t2.1.85l2.2 2.2q.85.85.85 2.1t-.85 2.1Zm-2.1 2.1L12.4 42H6v-6.4l25.2-25.2Zm-5.35-1.05-1.1-1.1 2.2 2.2Z" />
+                </svg>
               </SvgDiv>
             </Link>
           </PostIco>
-          <LogOutButton
-            onClick={LogOut}
-          >
-            Sign Out
-          </LogOutButton>
-          <LogOutButton
-            onClick={GoMyPage}
-          >
-            My Page
-          </LogOutButton>
+          <LogOutButton onClick={LogOut}>Sign Out</LogOutButton>
+          <LogOutButton onClick={GoMyPage}>My Page</LogOutButton>
         </HeaderButton>
         <LogoImg src="/logo.png" height="60px" />
       </Header>
@@ -104,21 +97,25 @@ export default Home;
 
 const Header = styled.div`
   height: 70px;
+  width: 100%;
+  /* top:0px;
+  left:0px */
   background-color: #ffc501;
   border-bottom: 2px solid #77477e;
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+  position: fixed;
+`;
 
 const HeaderButton = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const LogoImg = styled.img`
   margin-right: 20px;
-`
+`;
 
 const BG = styled.div`
   background-color: #fe9600;
@@ -127,6 +124,7 @@ const BG = styled.div`
   justify-content: center;
   min-height: 100vh;
   height: 100%;
+  padding-top: 70px;
 `;
 
 const Entire = styled.div`
@@ -147,7 +145,6 @@ const BlockLine = styled.div`
 `;
 
 const PostIco = styled.div`
-
   background-color: #ffee4a;
   height: 60px;
   width: 120px;
@@ -158,11 +155,11 @@ const PostIco = styled.div`
   align-content: center;
   justify-content: center;
   border: #77477e solid 2px;
-`
+`;
 
 const SvgDiv = styled.div`
   fill: #77477e;
-`
+`;
 
 const LogOutButton = styled.button`
   background-color: #ffee4a;
@@ -175,7 +172,7 @@ const LogOutButton = styled.button`
   color: #77477e;
   font-size: 16px;
   font-weight: bold;
-`
+`;
 
 // .color-0 { color: #fe9600; }
 // .color-1 { color: #ffc501; }
