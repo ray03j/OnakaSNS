@@ -2,18 +2,27 @@ import { useLayoutEffect, useState } from "react";
 import { instance } from "../../utils/instance";
 import styled from "styled-components";
 import Block from "../../components/Block";
-import { Props } from "../../types/type";
+import { User, Props } from "../../types/type";
 import { useRouter } from "next/router";
 
 const UserPost = () => {
   const router = useRouter();
   const [posts, setPost] = useState<Props[]>([]);
   const [isGot, setIsGot] = useState<boolean>(false);
+  const [me, setMe] = useState<User>(Object);
   useLayoutEffect(() => {
     if (!router.isReady) {
       return;
     }
     const { user_id } = router.query;
+    const token = localStorage.getItem("token");
+    instance
+      .get(`/users/${user_id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setMe(res.data);
+      });
     const getUserPost = async () => {
       const token = localStorage.getItem("token");
       console.log(user_id);
@@ -30,12 +39,28 @@ const UserPost = () => {
     }
   }, [router.query]);
 
+  const LogOut = () => {
+    localStorage.removeItem("token");
+    location.href = "/Signup";
+  };
+
+  const backPage = () => {
+    location.href = "/";
+  };
+
   return (
     <div>
+      <Header>
+        <HeaderButton>
+          <LogOutButton onClick={LogOut}>Sign Out</LogOutButton>
+          <LogOutButton onClick={backPage}>Back</LogOutButton>
+        </HeaderButton>
+        <LogoImg src="/logo.png" height="60px" />
+      </Header>
       <BG>
         <Entire>
           <CenterSection>
-            <UserName>{posts[0]?.user.name}</UserName>
+            <UserName>{me.name}</UserName>
             {isGot ? <PostNum>投稿数：{posts.length}</PostNum> : <></>}
             {posts.map((e) => {
               return (
@@ -50,6 +75,37 @@ const UserPost = () => {
     </div>
   );
 };
+
+const LogOutButton = styled.button`
+  background-color: #ffee4a;
+  height: 60px;
+  width: 120px;
+  padding: 7px;
+  margin: 0 5px;
+  border-radius: 25px;
+  border: #77477e solid 2px;
+  color: #77477e;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const Header = styled.div`
+  height: 70px;
+  background-color: #ffc501;
+  border-bottom: 2px solid #77477e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const HeaderButton = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LogoImg = styled.img`
+  margin-right: 20px;
+`;
 
 const BG = styled.div`
   background-color: #fe9600;
