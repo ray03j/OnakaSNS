@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 const UserPost = () => {
   const router = useRouter();
   const [posts, setPost] = useState<Props[]>([]);
+  const [isGot, setIsGot] = useState<boolean>(false);
   const [me, setMe] = useState<User>(Object);
   useLayoutEffect(() => {
     if (!router.isReady) {
@@ -15,11 +16,13 @@ const UserPost = () => {
     }
     const { user_id } = router.query;
     const token = localStorage.getItem("token");
-    instance.get(`/users/${user_id}`, {
-      headers: {Authorization: `Bearer ${token}`}
-    }).then((res) => {
-      setMe(res.data)
-    })
+    instance
+      .get(`/users/${user_id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setMe(res.data);
+      });
     const getUserPost = async () => {
       const token = localStorage.getItem("token");
       console.log(user_id);
@@ -27,6 +30,7 @@ const UserPost = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPost(userposts.data);
+      setIsGot(true);
     };
     try {
       getUserPost();
@@ -36,28 +40,20 @@ const UserPost = () => {
   }, [router.query]);
 
   const LogOut = () => {
-    localStorage.removeItem("token")
-    location.href = "/Signup"
-  }
+    localStorage.removeItem("token");
+    location.href = "/Signup";
+  };
 
   const backPage = () => {
-    location.href = "/"
-  }
+    location.href = "/";
+  };
 
   return (
     <div>
       <Header>
         <HeaderButton>
-          <LogOutButton
-            onClick={LogOut}
-          >
-            Sign Out
-          </LogOutButton>
-          <LogOutButton
-            onClick={backPage}
-          >
-            Back
-          </LogOutButton>
+          <LogOutButton onClick={LogOut}>Sign Out</LogOutButton>
+          <LogOutButton onClick={backPage}>Back</LogOutButton>
         </HeaderButton>
         <LogoImg src="/logo.png" height="60px" />
       </Header>
@@ -65,7 +61,7 @@ const UserPost = () => {
         <Entire>
           <CenterSection>
             <UserName>{me.name}</UserName>
-            <PostNum>投稿数：{posts.length}</PostNum>
+            {isGot ? <PostNum>投稿数：{posts.length}</PostNum> : <></>}
             {posts.map((e) => {
               return (
                 <BlockLine key={e.id}>
@@ -91,7 +87,7 @@ const LogOutButton = styled.button`
   color: #77477e;
   font-size: 16px;
   font-weight: bold;
-`
+`;
 
 const Header = styled.div`
   height: 70px;
@@ -100,16 +96,16 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const HeaderButton = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const LogoImg = styled.img`
   margin-right: 20px;
-`
+`;
 
 const BG = styled.div`
   background-color: #fe9600;
